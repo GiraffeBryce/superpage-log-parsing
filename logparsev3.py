@@ -1,7 +1,17 @@
+"""
+v3 changes:
+- Added distinction based on demotion.
+--- If there is a promotion, counts will restart and be added to log_details after the most current
+    demotion log statement.
+
+"""
+
 # For testing the first 1000 lines:
 test_1000 = 1000
 
-# (virtual address region, pmap) : "log details"
+# (va_region, pmap) : [log_details, index_last_demote]
+# (string, string) : [string, int]
+# index_last_demote --> period of the last demote statement added to log details, 0 if no prev demote
 superpage_tracker = {}
 
 """
@@ -20,12 +30,24 @@ Effect:
 """
 
 def add_instance(super_va, pmap, operation_words):
-    first_inst = superpage_tracker[(super_va, pmap)].find(operation_words)
+    # if superpage_tracker[(super_va, pmap)][1] != 0:
+    #     print(superpage_tracker[(super_va, pmap)][1])
+    
+    # If the operation was a successful demotion, change the dictionary value's index_last_demote
+    # to be the end of the log_details (which should be period of most recent demotion statement)
+    # if operation_words == "demoted":
+    #     print("MOVED DEMOTE TRACKER FROM", superpage_tracker[(super_va, pmap)][1], "TO", len(superpage_tracker[(super_va, pmap)][0]) - 1, "FOR", super_va, ",", pmap)
+    #     print("CURR LOG:", superpage_tracker[(super_va, pmap)][0])
+    #     superpage_tracker[(super_va, pmap)][1] = len(superpage_tracker[(super_va, pmap)][0]) - 1
+    
+    first_inst = superpage_tracker[(super_va, pmap)][0].find(operation_words, superpage_tracker[(super_va, pmap)][1])
     if first_inst != -1:
-        x = superpage_tracker[(super_va, pmap)].find("x", first_inst)
-        times = int(superpage_tracker[(super_va, pmap)][first_inst+len(operation_words)+1: x])
-        superpage_tracker[(super_va, pmap)] = superpage_tracker[(super_va, pmap)][0:first_inst+len(operation_words)+1]\
-            + str(times+1) + superpage_tracker[(super_va, pmap)][x:]
+        # Modify the counter to increment by one.
+        x = superpage_tracker[(super_va, pmap)][0].find("x", first_inst)
+        times = int(superpage_tracker[(super_va, pmap)][0][first_inst+len(operation_words)+1: x])
+        superpage_tracker[(super_va, pmap)][0] = superpage_tracker[(super_va, pmap)][0][0:first_inst+len(operation_words)+1]\
+            + str(times+1) + superpage_tracker[(super_va, pmap)][0][x:]
+        
         return 0
     else: 
         return -1
@@ -114,13 +136,13 @@ with open("ktr.out.txt") as f:
                 
                 # Check if superpage VA region in dictionary.
                 if (super_va, pmap) not in superpage_tracker:
-                    superpage_tracker[(super_va, pmap)] = ""
+                    superpage_tracker[(super_va, pmap)] = ["", 0]
                     
                 # Check if protection was added.
                 if line.find("protect") != -1:
                     # Find first instance of "Protection added". If it exists, add to the counter. Otherwise, start count from 1.
                     if add_instance(super_va, pmap, "Protection added") == -1:
-                        superpage_tracker[(super_va, pmap)] += "Protection added 1x. "
+                        superpage_tracker[(super_va, pmap)][0] += "Protection added 1x. "
                     
                 # Check if operation was successful.
                 elif line.find("success") != -1:
@@ -128,15 +150,18 @@ with open("ktr.out.txt") as f:
                     # Check if operation was entering superpage, promotion, or demotion.
                     if operation == "pmap_enter_pde":
                         if add_instance(super_va, pmap, "entered") == -1:
-                            superpage_tracker[(super_va, pmap)] += "Superpage entered 1x. "
+                            superpage_tracker[(super_va, pmap)][0] += "Superpage entered 1x. "
                     
                     elif operation == "pmap_promote_pde":
                         if add_instance(super_va, pmap, "promoted") == -1:
-                            superpage_tracker[(super_va, pmap)] += "Superpage promoted 1x. "
+                            superpage_tracker[(super_va, pmap)][0] += "Superpage promoted 1x. "
                     
                     elif operation == "pmap_demote_pde":
                         if add_instance(super_va, pmap, "demoted") == -1:
-                            superpage_tracker[(super_va, pmap)] += "Superpage demoted 1x. "
+                            superpage_tracker[(super_va, pmap)][0] += "Superpage demoted 1x. "
+                            print("MOVED DEMOTE TRACKER FROM", superpage_tracker[(super_va, pmap)][1], "TO", len(superpage_tracker[(super_va, pmap)][0]) - 1, "FOR", super_va, ",", pmap)
+                            print("CURR LOG:", superpage_tracker[(super_va, pmap)][0])
+                            superpage_tracker[(super_va, pmap)][1] = len(superpage_tracker[(super_va, pmap)][0]) - 1
                 
                 # Check if operation was failure.
                 elif line.find("failure") != -1:
@@ -144,22 +169,22 @@ with open("ktr.out.txt") as f:
                     # Check if operation was promotion or demotion.   
                     if operation == "pmap_promote_pde":
                         if add_instance(super_va, pmap, "promotion failed") == -1:          
-                            superpage_tracker[(super_va, pmap)] += "Superpage promotion failed 1x. "
+                            superpage_tracker[(super_va, pmap)][0] += "Superpage promotion failed 1x. "
                     
                     elif operation == "pmap_demote_pde":
                         if add_instance(super_va, pmap, "demotion failed") == -1:
-                            superpage_tracker[(super_va, pmap)] += "Superpage demotion failed 1x. "
+                            superpage_tracker[(super_va, pmap)][0] += "Superpage demotion failed 1x. "
                 
             # Testing:
             # test_1000 -= 1
             # if test_1000 < 0:
             #     for tup, log in superpage_tracker.items():
-            #         print(tup[0], ": ", log, sep="") 
-            #         # print(tup[0], ", ", tup[1], ": ", log, sep="") 
-            #         # print("VA: ", tup[0], ", pmap: ", tup[1], ": ", log, sep="") 
+            #         print(tup[0], ": ", log[0], sep="") 
+            #         # print(tup[0], ", ", tup[1], ": ", log[0], sep="") 
+            #         # print("VA: ", tup[0], ", pmap: ", tup[1], ": ", log[0], sep="") 
             #     # print(superpage_tracker)
             #     exit()
         for tup, log in superpage_tracker.items():
             # print(tup[0], "", ": ", log, sep="") 
-            print(tup[0], ", ", tup[1], ": ", log, sep="") 
+            print(tup[0], ", ", tup[1], ": ", log[0], sep="") 
         exit()
