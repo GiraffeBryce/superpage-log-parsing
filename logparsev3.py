@@ -159,8 +159,8 @@ with open("ktr.out.txt") as f:
                     elif operation == "pmap_demote_pde":
                         if add_instance(super_va, pmap, "demoted") == -1:
                             superpage_tracker[(super_va, pmap)][0] += "Superpage demoted 1x. "
-                            print("MOVED DEMOTE TRACKER FROM", superpage_tracker[(super_va, pmap)][1], "TO", len(superpage_tracker[(super_va, pmap)][0]) - 1, "FOR", super_va, ",", pmap)
-                            print("CURR LOG:", superpage_tracker[(super_va, pmap)][0])
+                            # print("MOVED DEMOTE TRACKER FROM", superpage_tracker[(super_va, pmap)][1], "TO", len(superpage_tracker[(super_va, pmap)][0]) - 1, "FOR", super_va, ",", pmap)
+                            # print("CURR LOG:", superpage_tracker[(super_va, pmap)][0])
                             superpage_tracker[(super_va, pmap)][1] = len(superpage_tracker[(super_va, pmap)][0]) - 1
                 
                 # Check if operation was failure.

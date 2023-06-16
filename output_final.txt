@@ -1,0 +1,99 @@
+Promotions after 0 failures: 184033
+Promotions after 1 failures: 11003
+Promotions after 13 failures: 1
+Promotions after 18 failures: 2
+Promotions after 194 failures: 1
+Promotions after 15 failures: 4
+Promotions after 17 failures: 3
+Promotions after 8 failures: 2
+Promotions after 119 failures: 1
+Promotions after 10 failures: 4
+Promotions after 14 failures: 5
+Promotions after 2 failures: 5
+Promotions after 175 failures: 1
+Promotions after 3 failures: 1
+Promotions after 5 failures: 1
+Promotions after 4 failures: 2
+Promotions after 41 failures: 1
+Promotions after 19 failures: 1
+Promotions after 22 failures: 1
+Promotions after 24 failures: 1
+Promotions after 56 failures: 1
+Promotions after 36 failures: 1
+Promotions after 16 failures: 1
+Promotions after 20 failures: 1
+Promotions after 381 failures: 1
+Promotions after 12 failures: 1
+Promotions after 52 failures: 1
+Promotions after 124 failures: 1
+Promotions after 29 failures: 1
+Promotions after 31 failures: 1
+Promotions after 6 failures: 1
+Promotions after 506 failures: 1
+Promotions after 176 failures: 1
+Promotions after 139 failures: 1
+Promotions after 141 failures: 1
+Promotions after 7 failures: 1
+Promotions after 21 failures: 1
+Promotions after 11 failures: 1
+Promotions after 9 failures: 1
+Promotions after 47 failures: 1
+0 failures before page removal (no successful promotion): 80561
+7 failures before page removal (no successful promotion): 162
+1 failures before page removal (no successful promotion): 1346
+13 failures before page removal (no successful promotion): 85
+98 failures before page removal (no successful promotion): 1
+10 failures before page removal (no successful promotion): 76
+8 failures before page removal (no successful promotion): 80
+12 failures before page removal (no successful promotion): 79
+17 failures before page removal (no successful promotion): 18
+26 failures before page removal (no successful promotion): 3
+9 failures before page removal (no successful promotion): 66
+20 failures before page removal (no successful promotion): 12
+16 failures before page removal (no successful promotion): 25
+15 failures before page removal (no successful promotion): 19
+14 failures before page removal (no successful promotion): 76
+31 failures before page removal (no successful promotion): 3
+11 failures before page removal (no successful promotion): 86
+22 failures before page removal (no successful promotion): 10
+6 failures before page removal (no successful promotion): 5
+36 failures before page removal (no successful promotion): 1
+19 failures before page removal (no successful promotion): 15
+23 failures before page removal (no successful promotion): 7
+35 failures before page removal (no successful promotion): 2
+336 failures before page removal (no successful promotion): 1
+18 failures before page removal (no successful promotion): 14
+27 failures before page removal (no successful promotion): 5
+4 failures before page removal (no successful promotion): 7
+55 failures before page removal (no successful promotion): 1
+278 failures before page removal (no successful promotion): 1
+2 failures before page removal (no successful promotion): 2
+24 failures before page removal (no successful promotion): 5
+25 failures before page removal (no successful promotion): 5
+37 failures before page removal (no successful promotion): 1
+30 failures before page removal (no successful promotion): 2
+5 failures before page removal (no successful promotion): 4
+53 failures before page removal (no successful promotion): 1
+41 failures before page removal (no successful promotion): 2
+83 failures before page removal (no successful promotion): 1
+45 failures before page removal (no successful promotion): 1
+21 failures before page removal (no successful promotion): 13
+28 failures before page removal (no successful promotion): 2
+43 failures before page removal (no successful promotion): 1
+29 failures before page removal (no successful promotion): 1
+97 failures before page removal (no successful promotion): 1
+71 failures before page removal (no successful promotion): 1
+57 failures before page removal (no successful promotion): 1
+46 failures before page removal (no successful promotion): 1
+140 failures before page removal (no successful promotion): 1
+158 failures before page removal (no successful promotion): 1
+72 failures before page removal (no successful promotion): 1
+86 failures before page removal (no successful promotion): 1
+74 failures before page removal (no successful promotion): 1
+54 failures before page removal (no successful promotion): 1
+58 failures before page removal (no successful promotion): 1
+33 failures before page removal (no successful promotion): 1
+66 failures before page removal (no successful promotion): 1
+32 failures before page removal (no successful promotion): 1
+62 failures before page removal (no successful promotion): 1
+60 failures before page removal (no successful promotion): 1
