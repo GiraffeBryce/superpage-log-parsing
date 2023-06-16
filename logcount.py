@@ -10,6 +10,9 @@ promotion_fails_success = {}
 # {# of promotion fails before pmap removal : # of occurrences}
 promotion_fails_no_success = {}
 
+# global demotion counter
+demotions = 0
+
 """
 Input:
 - super_va: A string representing the related key in the pmap_tracker dictionary
@@ -124,11 +127,15 @@ with open("ktr.out.txt") as f:
                             promotion_fails_success[pmap_tracker[pmap][super_va][0]] += 1
                         del pmap_tracker[pmap][super_va]
                 
-                if operation == "pmap_enter_pde":
+                elif operation == "pmap_enter_pde":
                     if 0 not in promotion_fails_success:
                         promotion_fails_success[0] = 1
                     else:
                         promotion_fails_success[0] += 1
+                        
+                elif operation == "pmap_demote_pde":
+                    demotions += 1
+                    
             
             # The operation is "pmap_remove_pages".
             else:
@@ -159,5 +166,6 @@ with open("ktr.out.txt") as f:
         for num_fails, occurrences in promotion_fails_success.items():
             print("Promotions after ", num_fails, " failures: ", occurrences, sep = "")
         for num_fails, occurrences in promotion_fails_no_success.items():
-            print(num_fails, " failures before page removal (no successful promotion): ", occurrences, sep = "")
+            print(num_fails, " failures before pmap_remove_pages (no successful promotion): ", occurrences, sep = "")
+        print("Total demotions:", demotions)
         exit()
