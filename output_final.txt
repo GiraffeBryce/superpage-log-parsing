@@ -1,4 +1,4 @@
-Promotions after 0 failures: 184033
+Promotions after 0 failures: 234467
 Promotions after 1 failures: 11003
 Promotions after 13 failures: 1
 Promotions after 18 failures: 2

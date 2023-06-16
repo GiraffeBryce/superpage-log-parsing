@@ -55,7 +55,6 @@ Output:
   failed 1 time before pmap removal (without promotion), etc.
 
 Examples:
-    
     27 pmap_remove_pages: pmap 0xfffffe0185998540
     28 pmap_promote_pde: success for va 0x3c8000 in pmap 0xfffffe0185998540
    940 pmap_promote_pde: failure for va 0x80a1cd000 in pmap 0xfffffe018598cd60
@@ -124,6 +123,12 @@ with open("ktr.out.txt") as f:
                         else:
                             promotion_fails_success[pmap_tracker[pmap][super_va][0]] += 1
                         del pmap_tracker[pmap][super_va]
+                
+                if operation == "pmap_enter_pde":
+                    if 0 not in promotion_fails_success:
+                        promotion_fails_success[0] = 1
+                    else:
+                        promotion_fails_success[0] += 1
             
             # The operation is "pmap_remove_pages".
             else:
