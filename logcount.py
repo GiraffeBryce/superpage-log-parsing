@@ -176,7 +176,7 @@ with open("ktr.out.txt") as f:
             print("Promotions after ", num_fails, " failures: ", occurrences, sep = "")
             
         print("\n")
-        for num_fails, occurrences in promotion_fails_no_success.items():
+        for num_fails, occurrences in sorted_promotion_fails_no_success.items():
             print(num_fails, " failures before pmap_remove_pages (no successful promotion): ", occurrences, sep = "")
         
         print("\n")
