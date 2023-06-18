@@ -163,9 +163,22 @@ with open("ktr.out.txt") as f:
         # for spage, log in pmap_tracker.items():
         #     print(spage, ": ", log, sep="") 
         
-        for num_fails, occurrences in promotion_fails_success.items():
+        # Sort the dictionaries, and print them.
+        succ_keys = list(promotion_fails_success.keys())
+        succ_keys.sort()
+        sorted_promotion_fails_success = {i: promotion_fails_success[i] for i in succ_keys}
+        
+        no_succ_keys = list(promotion_fails_no_success.keys())
+        no_succ_keys.sort()
+        sorted_promotion_fails_no_success = {i: promotion_fails_no_success[i] for i in no_succ_keys}
+        
+        for num_fails, occurrences in sorted_promotion_fails_success.items():
             print("Promotions after ", num_fails, " failures: ", occurrences, sep = "")
+            
+        print("\n")
         for num_fails, occurrences in promotion_fails_no_success.items():
             print(num_fails, " failures before pmap_remove_pages (no successful promotion): ", occurrences, sep = "")
+        
+        print("\n")
         print("Total demotions:", demotions)
         exit()
