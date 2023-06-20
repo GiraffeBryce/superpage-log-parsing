@@ -7,6 +7,9 @@ pmap_tracker = {}
 # {# of promotion fails before promotion : # of occurrences}
 promotion_fails_success = {}
 
+# {# of promotion fails before entering : # of occurrences}
+enter_fails_success = {}
+
 # {# of promotion fails before pmap removal : # of occurrences}
 promotion_fails_no_success = {}
 
@@ -128,10 +131,17 @@ with open("ktr.out.txt") as f:
                         del pmap_tracker[pmap][super_va]
                 
                 elif operation == "pmap_enter_pde":
-                    if 0 not in promotion_fails_success:
-                        promotion_fails_success[0] = 1
+                    if pmap_tracker[pmap][super_va][0] not in enter_fails_success:
+                        enter_fails_success[pmap_tracker[pmap][super_va][0]] = 1
                     else:
-                        promotion_fails_success[0] += 1
+                        enter_fails_success[pmap_tracker[pmap][super_va][0]] += 1
+                    del pmap_tracker[pmap][super_va]
+                    
+                    # if 0 not in promotion_fails_success:
+                    #     promotion_fails_success[0] = 1
+                    # else:
+                    #     promotion_fails_success[0] += 1
+                    # del pmap_tracker[pmap][super_va]
                         
                 elif operation == "pmap_demote_pde":
                     demotions += 1
@@ -172,11 +182,25 @@ with open("ktr.out.txt") as f:
         no_succ_keys.sort()
         sorted_promotion_fails_no_success = {i: promotion_fails_no_success[i] for i in no_succ_keys}
         
+        succ_enter_keys = list(enter_fails_success.keys())
+        succ_enter_keys.sort()
+        sorted_enter_fails_success = {i: enter_fails_success[i] for i in succ_enter_keys}
+        
+        print("By promotion:\n")
         for num_fails, occurrences in sorted_promotion_fails_success.items():
             print("Promotions after ", num_fails, " failures: ", occurrences, sep = "")
             
         print("\n")
+        
+        print("By entering:\n")
+        for num_fails, occurrences in sorted_enter_fails_success.items():
+            print("Entering after ", num_fails, " failures: ", occurrences, sep = "")
+            
+        print("\n")
+        
         for num_fails, occurrences in sorted_promotion_fails_no_success.items():
+            if num_fails == 0:
+                continue
             print(num_fails, " failures before pmap_remove_pages (no successful promotion): ", occurrences, sep = "")
         
         print("\n")
