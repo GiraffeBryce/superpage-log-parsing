@@ -1,14 +1,17 @@
+
+      ------FAILURES------       
+
 Counting failures before superpage promotion:
 
-Promotions after 0 failures: 184050
-Promotions after 1 failures: 11001
-Promotions after 2 failures: 5
-Promotions after 3 failures: 1
-Promotions after 4 failures: 1
-Promotions after 5 failures: 1
-Promotions after 6 failures: 1
-Promotions after 7 failures: 1
-Promotions after 8 failures: 1
+Promotions after 0 failures: 166637
+Promotions after 1 failures: 6724
+Promotions after 2 failures: 511
+Promotions after 3 failures: 315
+Promotions after 4 failures: 122
+Promotions after 5 failures: 63
+Promotions after 6 failures: 34
+Promotions after 7 failures: 12
+Promotions after 8 failures: 6
 Promotions after 9 failures: 1
 Promotions after 10 failures: 3
 Promotions after 14 failures: 3
@@ -16,26 +19,24 @@ Promotions after 15 failures: 4
 Promotions after 16 failures: 1
 Promotions after 17 failures: 2
 Promotions after 18 failures: 2
-Promotions after 19 failures: 1
 Promotions after 20 failures: 1
 Promotions after 22 failures: 1
 Promotions after 29 failures: 1
 Promotions after 31 failures: 1
-Promotions after 41 failures: 1
+Promotions after 42 failures: 1
 Promotions after 52 failures: 1
-Promotions after 56 failures: 1
-Promotions after 119 failures: 1
+Promotions after 56 failures: 2
+Promotions after 67 failures: 1
 Promotions after 139 failures: 1
-Promotions after 175 failures: 1
 Promotions after 176 failures: 1
-Promotions after 194 failures: 1
+Promotions after 196 failures: 1
 Promotions after 381 failures: 1
 Promotions after 506 failures: 1
 
 Counting failures before superpage entering:
 
 Entering after 0 failures: 49476
-Entering after 1 failures: 36
+Entering after 1 failures: 35
 Entering after 4 failures: 8
 Entering after 5 failures: 4
 Entering after 6 failures: 5
@@ -88,6 +89,7 @@ Entering after 83 failures: 1
 Entering after 86 failures: 1
 Entering after 97 failures: 1
 Entering after 98 failures: 1
+Entering after 107 failures: 1
 Entering after 124 failures: 1
 Entering after 140 failures: 1
 Entering after 141 failures: 1
@@ -95,14 +97,84 @@ Entering after 158 failures: 1
 
 Failures to create superpage creations without success:
 
-1 failures before pmap_remove_pages (no successful promotion): 1312
-2 failures before pmap_remove_pages (no successful promotion): 2
-13 failures before pmap_remove_pages (no successful promotion): 1
-14 failures before pmap_remove_pages (no successful promotion): 2
-23 failures before pmap_remove_pages (no successful promotion): 1
+1 failures before pmap_remove_pages (no successful promotion): 916
+2 failures before pmap_remove_pages (no successful promotion): 193
+3 failures before pmap_remove_pages (no successful promotion): 100
+4 failures before pmap_remove_pages (no successful promotion): 61
+5 failures before pmap_remove_pages (no successful promotion): 24
+6 failures before pmap_remove_pages (no successful promotion): 9
+7 failures before pmap_remove_pages (no successful promotion): 3
+8 failures before pmap_remove_pages (no successful promotion): 3
+11 failures before pmap_remove_pages (no successful promotion): 1
+14 failures before pmap_remove_pages (no successful promotion): 1
+18 failures before pmap_remove_pages (no successful promotion): 1
+24 failures before pmap_remove_pages (no successful promotion): 1
 35 failures before pmap_remove_pages (no successful promotion): 1
+41 failures before pmap_remove_pages (no successful promotion): 1
 55 failures before pmap_remove_pages (no successful promotion): 1
+72 failures before pmap_remove_pages (no successful promotion): 1
+98 failures before pmap_remove_pages (no successful promotion): 1
+142 failures before pmap_remove_pages (no successful promotion): 1
+190 failures before pmap_remove_pages (no successful promotion): 1
 278 failures before pmap_remove_pages (no successful promotion): 1
 336 failures before pmap_remove_pages (no successful promotion): 1
 
-Total demotions: 36199
+      ------PROTECTIONS------       
+
+Counting protections before superpage promotion:
+
+Promotions after 0 protections: 166652
+Promotions after 1 protections: 6727
+Promotions after 2 protections: 508
+Promotions after 3 protections: 314
+Promotions after 4 protections: 121
+Promotions after 5 protections: 63
+Promotions after 6 protections: 33
+Promotions after 7 protections: 11
+Promotions after 8 protections: 5
+Promotions after 16 protections: 1
+Promotions after 42 protections: 1
+Promotions after 56 protections: 2
+Promotions after 67 protections: 1
+Promotions after 139 protections: 1
+Promotions after 176 protections: 1
+Promotions after 196 protections: 1
+Promotions after 380 protections: 1
+Promotions after 505 protections: 1
+Promotions after 511 protections: 6
+Promotions after 512 protections: 4
+
+Counting protections before superpage entering:
+
+Entering after 0 protections: 50395
+Entering after 1 protections: 38
+Entering after 107 protections: 1
+
+Protections to create superpage creations without success:
+
+1 protections before pmap_remove_pages (no successful promotion): 910
+2 protections before pmap_remove_pages (no successful promotion): 195
+3 protections before pmap_remove_pages (no successful promotion): 99
+4 protections before pmap_remove_pages (no successful promotion): 62
+5 protections before pmap_remove_pages (no successful promotion): 24
+6 protections before pmap_remove_pages (no successful promotion): 9
+7 protections before pmap_remove_pages (no successful promotion): 3
+8 protections before pmap_remove_pages (no successful promotion): 3
+11 protections before pmap_remove_pages (no successful promotion): 1
+12 protections before pmap_remove_pages (no successful promotion): 1
+24 protections before pmap_remove_pages (no successful promotion): 1
+35 protections before pmap_remove_pages (no successful promotion): 1
+38 protections before pmap_remove_pages (no successful promotion): 1
+41 protections before pmap_remove_pages (no successful promotion): 1
+56 protections before pmap_remove_pages (no successful promotion): 1
+72 protections before pmap_remove_pages (no successful promotion): 1
+74 protections before pmap_remove_pages (no successful promotion): 1
+98 protections before pmap_remove_pages (no successful promotion): 1
+120 protections before pmap_remove_pages (no successful promotion): 1
+142 protections before pmap_remove_pages (no successful promotion): 1
+191 protections before pmap_remove_pages (no successful promotion): 1
+217 protections before pmap_remove_pages (no successful promotion): 1
+293 protections before pmap_remove_pages (no successful promotion): 1
+460 protections before pmap_remove_pages (no successful promotion): 1
+
+Total demotions: 36193

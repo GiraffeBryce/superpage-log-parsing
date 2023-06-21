@@ -1,0 +1,109 @@
+By promotion:
+
+Promotions after 0 failures: 184050
+Promotions after 1 failures: 11001
+Promotions after 2 failures: 5
+Promotions after 3 failures: 1
+Promotions after 4 failures: 1
+Promotions after 5 failures: 1
+Promotions after 6 failures: 1
+Promotions after 7 failures: 1
+Promotions after 8 failures: 1
+Promotions after 9 failures: 1
+Promotions after 10 failures: 3
+Promotions after 14 failures: 3
+Promotions after 15 failures: 4
+Promotions after 16 failures: 1
+Promotions after 17 failures: 2
+Promotions after 18 failures: 2
+Promotions after 19 failures: 1
+Promotions after 20 failures: 1
+Promotions after 22 failures: 1
+Promotions after 29 failures: 1
+Promotions after 31 failures: 1
+Promotions after 41 failures: 1
+Promotions after 52 failures: 1
+Promotions after 56 failures: 1
+Promotions after 119 failures: 1
+Promotions after 139 failures: 1
+Promotions after 175 failures: 1
+Promotions after 176 failures: 1
+Promotions after 194 failures: 1
+Promotions after 381 failures: 1
+Promotions after 506 failures: 1
+
+
+By entering:
+
+Entering after 0 failures: 49476
+Entering after 1 failures: 36
+Entering after 4 failures: 8
+Entering after 5 failures: 4
+Entering after 6 failures: 5
+Entering after 7 failures: 162
+Entering after 8 failures: 81
+Entering after 9 failures: 66
+Entering after 10 failures: 77
+Entering after 11 failures: 87
+Entering after 12 failures: 80
+Entering after 13 failures: 85
+Entering after 14 failures: 76
+Entering after 15 failures: 19
+Entering after 16 failures: 25
+Entering after 17 failures: 19
+Entering after 18 failures: 14
+Entering after 19 failures: 15
+Entering after 20 failures: 12
+Entering after 21 failures: 14
+Entering after 22 failures: 10
+Entering after 23 failures: 6
+Entering after 24 failures: 6
+Entering after 25 failures: 5
+Entering after 26 failures: 3
+Entering after 27 failures: 5
+Entering after 28 failures: 2
+Entering after 29 failures: 1
+Entering after 30 failures: 2
+Entering after 31 failures: 3
+Entering after 32 failures: 1
+Entering after 33 failures: 1
+Entering after 35 failures: 1
+Entering after 36 failures: 2
+Entering after 37 failures: 1
+Entering after 41 failures: 2
+Entering after 43 failures: 1
+Entering after 45 failures: 1
+Entering after 46 failures: 1
+Entering after 47 failures: 1
+Entering after 53 failures: 1
+Entering after 54 failures: 1
+Entering after 57 failures: 1
+Entering after 58 failures: 1
+Entering after 60 failures: 1
+Entering after 62 failures: 1
+Entering after 66 failures: 1
+Entering after 71 failures: 1
+Entering after 72 failures: 1
+Entering after 74 failures: 1
+Entering after 83 failures: 1
+Entering after 86 failures: 1
+Entering after 97 failures: 1
+Entering after 98 failures: 1
+Entering after 124 failures: 1
+Entering after 140 failures: 1
+Entering after 141 failures: 1
+Entering after 158 failures: 1
+
+
+1 failures before pmap_remove_pages (no successful promotion): 1312
+2 failures before pmap_remove_pages (no successful promotion): 2
+13 failures before pmap_remove_pages (no successful promotion): 1
+14 failures before pmap_remove_pages (no successful promotion): 2
+23 failures before pmap_remove_pages (no successful promotion): 1
+35 failures before pmap_remove_pages (no successful promotion): 1
+55 failures before pmap_remove_pages (no successful promotion): 1
+278 failures before pmap_remove_pages (no successful promotion): 1
+336 failures before pmap_remove_pages (no successful promotion): 1
+
+
+Total demotions: 36199

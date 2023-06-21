@@ -1,47 +1,48 @@
 # For testing the first 1000 lines:
 test_1000 = 1000
 
-"""
-    Global dictionary tracking all pmaps and VA regions.
-"""
-# {pmap : {va region: [promotion failures, protections added]}}
+# {pmap : {va region: [promotion failures]}}
 pmap_tracker = {}
 
-"""
-    Dictionaries tracking superpage creations.
-"""
 # {# of promotion fails before promotion : # of occurrences}
 promotion_fails_success = {}
-
-# {# of promotion fails before pmap removal : # of occurrences}
-promotion_fails_no_success = {}
 
 # {# of promotion fails before entering : # of occurrences}
 enter_fails_success = {}
 
-
-"""
-    Dictionaries tracking added protections.
-"""
-# {# of protections added before promotion : # of occurrences}
-promotion_protect_success = {}
-
-# {# of protections added before pmap removal : # of occurrences}
-promotion_protect_no_success = {}
-
-# {# of protections added before entering : # of occurrences}
-enter_protect_success = {}
+# {# of promotion fails before pmap removal : # of occurrences}
+promotion_fails_no_success = {}
 
 # global demotion counter
 demotions = 0
 
 """
+Input:
+- super_va: A string representing the related key in the pmap_tracker dictionary
+  which string value will be modified
+- operation_words: A string representing the operation words used to check log details.
+
+Effect:
+- Modifies the string value in the pmap_tracker dictionary at key super_va to 
+  increment the counter for the operation indicated by operation_words.
+"""
+
+def add_instance(super_va, operation_words):
+    first_inst = pmap_tracker[super_va].find(operation_words)
+    if first_inst != -1:
+        x = pmap_tracker[super_va].find("x", first_inst)
+        times = int(pmap_tracker[super_va][first_inst+len(operation_words)+1: x])
+        pmap_tracker[super_va] = pmap_tracker[super_va][0:first_inst+len(operation_words)+1]\
+            + str(times+1) + pmap_tracker[super_va][x:]
+        return 0
+    else: 
+        return -1
+
+
+"""
 Objective:
 - Given a trace log file tracking superpage creations, identify how often a virtual address region
-    fails in being promoted/entered to a superpage before success, if any.
-- Count the total amount of demotions logged.
-- Count the number of protections that did/didn't lead to promotion before pmap_remove_pages is called.
-
+    fails/succeeds in being promoted to a superpage.
 Input:
 - ktr.out.txt: A trace file of which the 2+ lines log, in order, memory operations. Each line follows a format of:
     
@@ -54,7 +55,12 @@ Input:
     - pmap_demote_pde: [success/failure] for va [hex virtual address] in
     - pmap_promote_pde: [success/failure/protect] for va [hex virtual address] in
 
-- Examples of inputs:
+Output:
+- A log counting the number of times a superpage VA region failed 0 times before promotion,
+  failed 1 time before promotion, etc. Also, failed 0 times before pmap removal (without promotion),
+  failed 1 time before pmap removal (without promotion), etc.
+
+Examples:
     27 pmap_remove_pages: pmap 0xfffffe0185998540
     28 pmap_promote_pde: success for va 0x3c8000 in pmap 0xfffffe0185998540
    940 pmap_promote_pde: failure for va 0x80a1cd000 in pmap 0xfffffe018598cd60
@@ -62,13 +68,6 @@ Input:
   1274 pmap_enter_pde: success for va 0x200000 in pmap 0xfffffe010cfeb788
   1202 pmap_demote_pde: success for va 0x808098000 in pmap 0xfffffe010cfeb788
 394596 pmap_demote_pde: failure for va 0x8101ff000 in pmap 0xfffffe01a4752170
-
-Output:
-- A log counting the number of times a superpage VA region failed 0 times before promotion,
-  failed 1 time before promotion, etc. Also, counting how often promotion failures occur before
-  a superpage entering occurs ie 0 failures before entering, 1 failure before entering, etc. 
-  Also, failed 0 times before pmap removal (without promotion),
-  failed 1 time before pmap removal (without promotion), etc.
 """
 
 with open("ktr.out.txt") as f:
@@ -117,66 +116,45 @@ with open("ktr.out.txt") as f:
                     
                 # Check if superpage VA is in the nested dictionary at key pmap.
                 if super_va not in pmap_tracker[pmap]:
-                    pmap_tracker[pmap][super_va] = [0, 0]
+                    pmap_tracker[pmap][super_va] = [0]
                 
                 if operation == "pmap_promote_pde":
                     # If there's a failure to promote, increment fail counter.
                     if line.find("failure") != -1:
                         pmap_tracker[pmap][super_va][0] += 1
-                    # If a protection is added, increment the protection counter.
-                    elif line.find("protect") != -1:
-                        pmap_tracker[pmap][super_va][1] += 1
-                    # Else, increment counts and delete the superpage VA from mapping.
-                    elif line.find("success") != -1:
-                        # Increment promotion fail count for success.
+                    # Else, increment global fail count and delete that superpage VA from mapping.
+                    else:
                         if pmap_tracker[pmap][super_va][0] not in promotion_fails_success:
                             promotion_fails_success[pmap_tracker[pmap][super_va][0]] = 1
                         else:
                             promotion_fails_success[pmap_tracker[pmap][super_va][0]] += 1
-                            
-                        # Increment protect added count for success.
-                        if pmap_tracker[pmap][super_va][1] not in promotion_protect_success:
-                            promotion_protect_success[pmap_tracker[pmap][super_va][1]] = 1
-                        else:
-                            promotion_protect_success[pmap_tracker[pmap][super_va][1]] += 1
-                            
                         del pmap_tracker[pmap][super_va]
                 
                 elif operation == "pmap_enter_pde":
-                    # Increment enter fail count for no success.
                     if pmap_tracker[pmap][super_va][0] not in enter_fails_success:
                         enter_fails_success[pmap_tracker[pmap][super_va][0]] = 1
                     else:
                         enter_fails_success[pmap_tracker[pmap][super_va][0]] += 1
-                        
-                    # Increment protect added count for no success.
-                    if pmap_tracker[pmap][super_va][1] not in enter_protect_success:
-                        enter_protect_success[pmap_tracker[pmap][super_va][1]] = 1
-                    else:
-                        enter_protect_success[pmap_tracker[pmap][super_va][1]] += 1
-                        
                     del pmap_tracker[pmap][super_va]
+                    
+                    # if 0 not in promotion_fails_success:
+                    #     promotion_fails_success[0] = 1
+                    # else:
+                    #     promotion_fails_success[0] += 1
+                    # del pmap_tracker[pmap][super_va]
                         
                 elif operation == "pmap_demote_pde":
-                    if line.find("success") != -1:
-                        demotions += 1
+                    demotions += 1
                     
             
             # The operation is "pmap_remove_pages".
             else:
                 # Iterate through pmap_tracker for pmap, and count up.
                 for super_va, counts in pmap_tracker[pmap].items():
-                    # Increment the fail count in the no success dictionary.
                     if counts[0] not in promotion_fails_no_success:
                         promotion_fails_no_success[counts[0]] = 1
                     else:
                         promotion_fails_no_success[counts[0]] += 1
-                        
-                    # Increment the protect count in the no success dictionary.
-                    if counts[1] not in promotion_protect_no_success:
-                        promotion_protect_no_success[counts[1]] = 1
-                    else:
-                        promotion_protect_no_success[counts[1]] += 1
                 
                 # Remove pmap from pmap_tracker.
                 del pmap_tracker[pmap]
@@ -195,13 +173,7 @@ with open("ktr.out.txt") as f:
         # for spage, log in pmap_tracker.items():
         #     print(spage, ": ", log, sep="") 
         
-        
-        
-        # Sort the dictionaries.
-    
-        """
-            Dictionaries tracking superpage creations.
-        """
+        # Sort the dictionaries, and print them.
         succ_keys = list(promotion_fails_success.keys())
         succ_keys.sort()
         sorted_promotion_fails_success = {i: promotion_fails_success[i] for i in succ_keys}
@@ -214,65 +186,23 @@ with open("ktr.out.txt") as f:
         succ_enter_keys.sort()
         sorted_enter_fails_success = {i: enter_fails_success[i] for i in succ_enter_keys}
         
-        """
-            Dictionaries tracking added protections.
-        """
-        succ_keys = list(promotion_protect_success.keys())
-        succ_keys.sort()
-        sorted_promotion_protect_success = {i: promotion_protect_success[i] for i in succ_keys}
-        
-        no_succ_keys = list(promotion_protect_no_success.keys())
-        no_succ_keys.sort()
-        sorted_promotion_protect_no_success = {i: promotion_protect_no_success[i] for i in no_succ_keys}
-        
-        succ_enter_keys = list(enter_protect_success.keys())
-        succ_enter_keys.sort()
-        sorted_enter_protect_success = {i: enter_protect_success[i] for i in succ_enter_keys}
-        
-        
-        # Print the sorted dictionaries.
-        
-        """
-            FAILURES:
-        """
-        print("\n      ------FAILURES------       \n")
-        # Print the counts of failures before superpage promotion.
-        print("Counting failures before superpage promotion:\n")
+        print("By promotion:\n")
         for num_fails, occurrences in sorted_promotion_fails_success.items():
             print("Promotions after ", num_fails, " failures: ", occurrences, sep = "")
             
-        # Print the counts of failures before superpage entering.
-        print("\nCounting failures before superpage entering:\n")
+        print("\n")
+        
+        print("By entering:\n")
         for num_fails, occurrences in sorted_enter_fails_success.items():
             print("Entering after ", num_fails, " failures: ", occurrences, sep = "")
             
-        # Print the counts of failures without superpage creation.
-        print("\nFailures to create superpage creations without success:\n")
+        print("\n")
+        
         for num_fails, occurrences in sorted_promotion_fails_no_success.items():
             if num_fails == 0:
                 continue
             print(num_fails, " failures before pmap_remove_pages (no successful promotion): ", occurrences, sep = "")
-            
-        """
-            PROTECTIONS:
-        """
-        print("\n      ------PROTECTIONS------       ")
-        # Print the counts of added protections before superpage promotion.
-        print("\nCounting protections before superpage promotion:\n")
-        for num_fails, occurrences in sorted_promotion_protect_success.items():
-            print("Promotions after ", num_fails, " protections: ", occurrences, sep = "")
-            
-        # Print the counts of added protections before superpage entering.
-        print("\nCounting protections before superpage entering:\n")
-        for num_fails, occurrences in sorted_enter_protect_success.items():
-            print("Entering after ", num_fails, " protections: ", occurrences, sep = "")
-            
-        # Print the counts of added protections without superpage creation.
-        print("\nProtections to create superpage creations without success:\n")
-        for num_fails, occurrences in sorted_promotion_protect_no_success.items():
-            if num_fails == 0:
-                continue
-            print(num_fails, " protections before pmap_remove_pages (no successful promotion): ", occurrences, sep = "")
         
-        print("\nTotal demotions:", demotions)
+        print("\n")
+        print("Total demotions:", demotions)
         exit()
