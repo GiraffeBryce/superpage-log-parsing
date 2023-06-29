@@ -32,14 +32,17 @@ promotion_protect_no_success = {}
 # {# of protections added before entering : # of occurrences}
 enter_protect_success = {}
 
-# global demotion counter
-demotions = 0
+"""
+    Global demotion counters.
+"""
+demotions_success = 0
+demotions_failure = 0
 
 """
 Objective:
 - Given a trace log file tracking superpage creations, identify how often a virtual address region
     fails in being promoted/entered to a superpage before success, if any.
-- Count the total amount of demotions logged.
+- Count the total amount of demotions logged, whether failure or success.
 - Count the number of protections that did/didn't lead to promotion before pmap_remove_pages is called.
 
 Input:
@@ -71,7 +74,7 @@ Output:
   failed 1 time before pmap removal (without promotion), etc.
 """
 
-with open("ktr.out.txt") as f:
+with open("ktr.out.new.txt") as f:
     while True:
         for line in f:
             # Get index.
@@ -159,7 +162,9 @@ with open("ktr.out.txt") as f:
                         
                 elif operation == "pmap_demote_pde":
                     if line.find("success") != -1:
-                        demotions += 1
+                        demotions_success += 1
+                    else:
+                        demotions_failure += 1
                     
             
             # The operation is "pmap_remove_pages".
@@ -181,7 +186,7 @@ with open("ktr.out.txt") as f:
                 # Remove pmap from pmap_tracker.
                 del pmap_tracker[pmap]
                 
-            # Testing:
+        # Testing:
             # test_1000 -= 1
             # if test_1000 < 0:
                 # for spage, log in pmap_tracker.items():
@@ -274,5 +279,10 @@ with open("ktr.out.txt") as f:
                 continue
             print(num_fails, " protections before pmap_remove_pages (no successful promotion): ", occurrences, sep = "")
         
-        print("\nTotal demotions:", demotions)
+        """
+            DEMOTIONS:
+        """
+        print("\n      ------DEMOTIONS------       ")
+        print("\nTotal successful demotions:", demotions_success)
+        print("\nTotal failed demotions:", demotions_failure)
         exit()

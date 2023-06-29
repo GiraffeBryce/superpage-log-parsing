@@ -177,4 +177,8 @@ Protections to create superpage creations without success:
 293 protections before pmap_remove_pages (no successful promotion): 1
 460 protections before pmap_remove_pages (no successful promotion): 1
 
-Total demotions: 36193
+      ------DEMOTIONS------       
+
+Total successful demotions: 36193
+
+Total failed demotions: 6
